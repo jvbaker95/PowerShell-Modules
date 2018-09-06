@@ -1,5 +1,15 @@
 Import-Module GroupPolicy
 
+function Get-Gplink  { 
+param ([string]$path,[boolean]$inheritance, $domain) 
+    if ($inheritance) { 
+        (Get-GPInheritance -Target $path -Domain $domain).inheritedgpolinks 
+    } 
+    else { 
+        (Get-GPInheritance -Target $path -Domain $domain).gpolinks 
+    } 
+}
+
 class GPType {
 	[String]$Type
     [System.Collections.ArrayList]$Settings
@@ -43,7 +53,7 @@ class Setting {
     }
 }
 class FullGPO {
-	Hidden [Microsoft.GroupPolicy.GPO]$GPO
+	Hidden [Object]$GPO
     Hidden [GPType[]]$TypeList
     Hidden [String]$Name
 	Hidden [String]$Domain
@@ -165,5 +175,4 @@ Function Get-FullGPO {
         [Parameter(Mandatory=$false)][String]$Domain=$env:USERDNSDOMAIN
     )
     return [FullGPO]::new($GPOName,$Domain)
-
 }
