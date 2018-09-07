@@ -4,8 +4,7 @@ Add-Type -AssemblyName System.Drawing
 Function Create-FormBox {
     Param([String]$Title,[String]$Message)
     [void][Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic')
-    $response = [Microsoft.VisualBasic.Interaction]::InputBox($Message, $Title)
-    return $response
+    return [Microsoft.VisualBasic.Interaction]::InputBox($Message, $Title)
 }
 
 Function Create-MessageBox {
@@ -24,9 +23,7 @@ Function Create-MessageBox {
         None,Hand,Error,Stop,Question,Exclamation,Warning,Asterisk,Information
     #>
     
-    $Response=[System.Windows.Forms.MessageBox]::Show($Message,$Title,$ButtonOptions,$Icon)
-    
-    return $Response
+    Return [System.Windows.Forms.MessageBox]::Show($Message,$Title,$ButtonOptions,$Icon)
 }
 
 Function Create-SelectionBox {
@@ -81,8 +78,10 @@ Function Create-SelectionBox {
     $result = $form.ShowDialog()
 
     if ($result -eq [System.Windows.Forms.DialogResult]::OK) {
-        $x = $listBox.SelectedItem
-        return $x
+        return $ListBox.SelectedItem
+    }
+    else {
+        return "CANCELED"
     }
 }
 Function Create-Grid {
