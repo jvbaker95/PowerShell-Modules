@@ -1,12 +1,26 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
+Add-Type -Name Window -Namespace Console -MemberDefinition '
 
+#Hides PowerShell Console on Creation if called.
+Function Hide-PSWindow {
+    [DllImport("Kernel32.dll")]
+    public static extern IntPtr GetConsoleWindow();
+    [DllImport("user32.dll")]
+    public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);
+    '
+    $consolePtr = [Console.Window]::GetConsoleWindow()
+    [Console.Window]::ShowWindow($consolePtr, 0)
+}
+
+#This will create form boxes where a target user can enter input in a UI-Box.
 Function Create-FormBox {
     Param([String]$Title,[String]$Message)
     [void][Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic')
     return [Microsoft.VisualBasic.Interaction]::InputBox($Message, $Title)
 }
 
+#This will create a message box that relays information to the user in a friendly manner.
 Function Create-MessageBox {
     param(
         [Parameter(Mandatory=$true)][Object]$Message,
@@ -26,6 +40,7 @@ Function Create-MessageBox {
     Return [System.Windows.Forms.MessageBox]::Show($Message,$Title,$ButtonOptions,$Icon)
 }
 
+#This will take an array and allow its items to be selected.
 Function Create-SelectionBox {
     param(
         [Parameter(Mandatory=$true)][String]$Message,
