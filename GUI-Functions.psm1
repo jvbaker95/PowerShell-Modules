@@ -120,5 +120,5 @@ Function Create-Grid {
         [Parameter(Mandatory=$false)][String]$Title="No Title Entered!",
         [Parameter(Mandatory=$false)][String]$OutputMode="Single"
     )
-    return Out-GridView -InputObject $Content -Title $Title -OutputMode $OutputMode
+    return ($Content | Out-GridView -Title $Title -OutputMode $OutputMode)
 }
