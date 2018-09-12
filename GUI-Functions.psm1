@@ -54,13 +54,22 @@ Function Create-SelectionBox {
         [Parameter(Mandatory=$false)][Int32]$LabelY=20
     )
 
+    $BoxMidpoint = $BoxWidth / 2
+    $LowerMid =  (0 + $BoxMidpoint)/2 
+    $UpperMid = ($BoxWidth + $BoxMidpoint)/2
+
+    $LowerLowerMid = (0 + $LowerMid) / 2
+    $LowerUpperMid = ($LowerMid + $BoxMidpoint) / 2
+    
+    $UpperLowerMid = ($BoxMidpoint + $UpperMid) / 2
+
     $form = New-Object System.Windows.Forms.Form
     $form.Text = $Title
     $form.Size = New-Object System.Drawing.Size($FormWidth,$FormLength)
     $form.StartPosition = 'CenterScreen'
 
     $OKButton = New-Object System.Windows.Forms.Button
-    $OKButton.Location = New-Object System.Drawing.Point(75,120)
+    $OKButton.Location = New-Object System.Drawing.Point($LowerMid,120)
     $OKButton.Size = New-Object System.Drawing.Size(75,23)
     $OKButton.Text = 'OK'
     $OKButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
@@ -68,7 +77,7 @@ Function Create-SelectionBox {
     $form.Controls.Add($OKButton)
 
     $CancelButton = New-Object System.Windows.Forms.Button
-    $CancelButton.Location = New-Object System.Drawing.Point(150,120)
+    $CancelButton.Location = New-Object System.Drawing.Point($UpperMid,120)
     $CancelButton.Size = New-Object System.Drawing.Size(75,23)
     $CancelButton.Text = 'Cancel'
     $CancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
