@@ -40,18 +40,23 @@ Function Create-MessageBox {
     Return [System.Windows.Forms.MessageBox]::Show($Message,$Title,$ButtonOptions,$Icon)
 }
 
-#This will take an array and allow its items to be selected.
+#This will take an array and allow its items to be selected; the size of the boxes are customizable.
 Function Create-SelectionBox {
     param(
         [Parameter(Mandatory=$true)][String]$Message,
         [Parameter(Mandatory=$true)][String]$Title,
         [Parameter(Mandatory=$true)][Object[]]$Content,
-        [Parameter(Mandatory=$false)][Int32]$boxHeight=80
+        [Parameter(Mandatory=$false)][Int32]$FormWidth=300,
+        [Parameter(Mandatory=$false)][Int32]$FormLength=200,
+        [Parameter(Mandatory=$false)][Int32]$BoxWidth=260,
+        [Parameter(Mandatory=$false)][Int32]$BoxLength=40,
+        [Parameter(Mandatory=$false)][Int32]$LabelX=10,
+        [Parameter(Mandatory=$false)][Int32]$LabelY=20
     )
 
     $form = New-Object System.Windows.Forms.Form
     $form.Text = $Title
-    $form.Size = New-Object System.Drawing.Size(300,200)
+    $form.Size = New-Object System.Drawing.Size($FormWidth,$FormLength)
     $form.StartPosition = 'CenterScreen'
 
     $OKButton = New-Object System.Windows.Forms.Button
@@ -71,15 +76,15 @@ Function Create-SelectionBox {
     $form.Controls.Add($CancelButton)
 
     $label = New-Object System.Windows.Forms.Label
-    $label.Location = New-Object System.Drawing.Point(10,20)
+    $label.Location = New-Object System.Drawing.Point($LabelX,$LabelY)
     $label.Size = New-Object System.Drawing.Size(280,20)
     $label.Text = $Message
     $form.Controls.Add($label)
 
     $listBox = New-Object System.Windows.Forms.ListBox
     $listBox.Location = New-Object System.Drawing.Point(10,40)
-    $listBox.Size = New-Object System.Drawing.Size(260,20)
-    $listBox.Height = $boxHeight
+    $listBox.Size = New-Object System.Drawing.Size($BoxWidth,$BoxLength)
+    $listBox.Height = 80
 
     #Add the list of items passed in via the arguments.
     foreach ($item in $content) {
