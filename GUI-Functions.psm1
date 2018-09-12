@@ -116,7 +116,8 @@ Function Create-SelectionBox {
 Function Create-Grid {
     param(
         [Parameter(Mandatory=$true)][Object[]]$Content,
-        [Parameter(Mandatory=$false)][String]$Title="No Title Entered!"
+        [Parameter(Mandatory=$false)][String]$Title="No Title Entered!",
+        [Parameter(Mandatory=$false)][String]$OutputMode="Single"
     )
-    return Out-GridView -InputObject $Content -Title $Title
+    return Out-GridView -InputObject $Content -Title $Title -OutputMode $OutputMode
 }
