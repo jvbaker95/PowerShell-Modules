@@ -1,0 +1,16 @@
+Import-Module C:\Users\bakerjam_adm\Desktop\bakerjam_psls\MiscScripts\Modules\BakerJam_Collections.psm1 -DisableNameChecking
+
+Function Find-ADUser {
+    Param(
+        [Parameter(Mandatory=$false)][String]$Username
+    )
+    $Name = Create-FormBox -Title "Enter user name" -Message "Enter name of user to search:"
+    if ($Name -eq "") {
+        Write-Error "No Name Entered!"
+        Exit
+    }
+    $NameList = Get-ADUser -Filter * -Properties LockedOut | Select DistinguishedName, Name, SamAccountName, Enabled, LockedOut | Where-Object {$_.Name.contains($Name)}
+    
+    $User = Create-Grid -Content $NameList -OutputMode Single -Title "Select User"
+
+}
