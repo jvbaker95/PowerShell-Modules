@@ -1,5 +1,3 @@
-Import-Module C:\Users\bakerjam_adm\Desktop\bakerjam_psls\MiscScripts\Modules\BakerJam_Collections.psm1 -DisableNameChecking
-
 Function Find-ADUser {
     $Name = Create-FormBox -Title "Enter user name" -Message "Enter name of user to search:"
     if ($Name -eq "") {
@@ -8,6 +6,5 @@ Function Find-ADUser {
     }
     $NameList = Get-ADUser -Filter * -Properties LockedOut | Select DistinguishedName, Name, SamAccountName, Enabled, LockedOut | Where-Object {$_.Name.contains($Name)}
     
-    $User = Create-Grid -Content $NameList -OutputMode Single -Title "Select User"
-
+    $User = $NameList | Out-GridView -Title "Select User" -OutputMode Single
 }
