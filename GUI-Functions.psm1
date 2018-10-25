@@ -15,7 +15,10 @@ Function Hide-PSWindow {
 
 #This will create form boxes where a target user can enter input in a UI-Box.
 Function Create-FormBox {
-    Param([String]$Title,[String]$Message)
+    Param(
+        [Parameter(Mandatory=$false)][Object]$Title=" ",
+        [Parameter(Mandatory=$true)][Object]$Message
+    )
     [void][Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic')
     return [Microsoft.VisualBasic.Interaction]::InputBox($Message, $Title)
 }
@@ -24,19 +27,12 @@ Function Create-FormBox {
 Function Create-MessageBox {
     param(
         [Parameter(Mandatory=$true)][Object]$Message,
-        [Parameter(Mandatory=$true)][Object]$Title,
-        [Parameter(Mandatory=$false)][Object]$ButtonOptions="OK",
-        [Parameter(Mandatory=$false)][Object]$Icon="None"
+        [Parameter(Mandatory=$false)][Object]$Title="",
+        [Parameter(Mandatory=$false)][ValidateSet("OK","OKCancel","AbortRetryIgnore","YesNoCancel","RetryCancel")]
+            [Object]$ButtonOptions="OK",
+        [Parameter(Mandatory=$false)][ValidateSet("None","Hand","Error","Stop","Question","Exclamation","Warning","Asterisk","Information")]
+            [Object]$Icon="None"
     )
-    <#
-    ButtonOptions
-        OK,OKCancel,AbortRetryIgnore,YesNoCancel,RetryCancel
-    #>
-    <#
-    Icon
-        None,Hand,Error,Stop,Question,Exclamation,Warning,Asterisk,Information
-    #>
-    
     Return [System.Windows.Forms.MessageBox]::Show($Message,$Title,$ButtonOptions,$Icon)
 }
 
@@ -112,13 +108,4 @@ Function Create-SelectionBox {
     else {
         return "CANCELED"
     }
-}
-Function Create-Grid {
-    <#Output mode can be None, Single, or Multiple.#>
-    param(
-        [Parameter(Mandatory=$true)][Object[]]$Content,
-        [Parameter(Mandatory=$false)][String]$Title="No Title Entered!",
-        [Parameter(Mandatory=$false)][String]$OutputMode="Single"
-    )
-    return ($Content | Out-GridView -Title $Title -OutputMode $OutputMode)
 }
