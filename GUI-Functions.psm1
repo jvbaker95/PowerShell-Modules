@@ -13,6 +13,21 @@ Function Hide-PSWindow {
     [Console.Window]::ShowWindow($consolePtr, 0)
 }
 
+#This will create a file prompt.
+Function Create-FilePrompt {
+    Param(
+        [Parameter(Mandatory=$false)][Object]$InitialDirectory=$env:HOMEDRIVE
+    )
+    [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
+
+    $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
+    $OpenFileDialog.initialDirectory = $InitialDirectory
+    $OpenFileDialog.filter = "All files (*.*)| *.*"
+    $OpenFileDialog.ShowDialog() | Out-Null
+    $OpenFileDialog.filename
+
+} 
+
 #This will create form boxes where a target user can enter input in a UI-Box.
 Function Create-FormBox {
     Param(
