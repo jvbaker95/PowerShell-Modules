@@ -61,7 +61,9 @@ Function Create-SelectionBox {
         [Parameter(Mandatory=$false)][Int32]$BoxWidth=260,
         [Parameter(Mandatory=$false)][Int32]$BoxLength=40,
         [Parameter(Mandatory=$false)][Int32]$LabelX=10,
-        [Parameter(Mandatory=$false)][Int32]$LabelY=20
+        [Parameter(Mandatory=$false)][Int32]$LabelY=20,
+        [Parameter(Mandatory=$false)][String]$Button1Message="OK"
+        [Parameter(Mandatory=$false)][String]$Button2Message="Cancel"    
     )
 
     $BoxMidpoint = $BoxWidth / 2
@@ -81,7 +83,7 @@ Function Create-SelectionBox {
     $OKButton = New-Object System.Windows.Forms.Button
     $OKButton.Location = New-Object System.Drawing.Point($LowerMid,120)
     $OKButton.Size = New-Object System.Drawing.Size(75,23)
-    $OKButton.Text = 'OK'
+    $OKButton.Text = $Button1Message
     $OKButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
     $form.AcceptButton = $OKButton
     $form.Controls.Add($OKButton)
@@ -89,7 +91,7 @@ Function Create-SelectionBox {
     $CancelButton = New-Object System.Windows.Forms.Button
     $CancelButton.Location = New-Object System.Drawing.Point($UpperMid,120)
     $CancelButton.Size = New-Object System.Drawing.Size(75,23)
-    $CancelButton.Text = 'Cancel'
+    $CancelButton.Text = $Button2Message
     $CancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
     $form.CancelButton = $CancelButton
     $form.Controls.Add($CancelButton)
