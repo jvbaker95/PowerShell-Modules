@@ -62,7 +62,7 @@ Function Create-SelectionBox {
         [Parameter(Mandatory=$false)][Int32]$BoxLength=40,
         [Parameter(Mandatory=$false)][Int32]$LabelX=10,
         [Parameter(Mandatory=$false)][Int32]$LabelY=20,
-        [Parameter(Mandatory=$false)][String]$Button1Message="OK"
+        [Parameter(Mandatory=$false)][String]$Button1Message="OK",
         [Parameter(Mandatory=$false)][String]$Button2Message="Cancel"    
     )
 
