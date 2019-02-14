@@ -1,7 +1,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-#Hides PowerShell Console on Creation if called.
+#Hides PowerShell Console on creation if called.
 Function Hide-PSWindow {
     Add-Type -Name Window -Namespace Console -MemberDefinition '
     [DllImport("Kernel32.dll")]
@@ -17,14 +17,23 @@ Function Hide-PSWindow {
 Function Create-FilePrompt {
     Param(
         [Parameter(Mandatory=$false)][Object]$InitialDirectory=$env:HOMEDRIVE,
-        [Parameter(Mandatory=$false)][Object]$Title="Open"
+        [Parameter(Mandatory=$false)][Object]$Title="Open",
+        [Parameter(Mandatory=$false)][ValidateSet("Open","Save")][String]$PromptType="Open"
     )
-    $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
-    $OpenFileDialog.InitialDirectory = $InitialDirectory
-    $OpenFileDialog.Filter = "All Files (*.*) | *.*"
-    $OpenFileDialog.Title = $Title
-    $OpenFileDialog.ShowDialog() | Out-Null
-    Return $OpenFileDialog.FileName
+    switch ($PromptType) {
+        ("Open") {
+            $FileDialog = New-Object System.Windows.Forms.OpenFileDialog
+        }
+        ("Save") {
+            $Title = "Save"
+            $FileDialog = New-Object System.Windows.Forms.SaveFileDialog
+        }
+    }
+    $FileDialog.InitialDirectory = $InitialDirectory
+    $FileDialog.Filter = "All Files (*.*) | *.*"
+    $FileDialog.Title = $Title
+    $FileDialog.ShowDialog() | Out-Null
+    Return $FileDialog.FileName
 } 
 
 #This will create form boxes where a target user can enter input in a UI-Box.
