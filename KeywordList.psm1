@@ -7,7 +7,15 @@ class KeywordList {
         $this.Keywords = $Keywords
     }
     [Boolean]containsKeyword([String]$InputString) {
-        return $null -ne ($this.Keywords | ? {$InputString -match $this._})
+        try {
+            if ($this.getKeyword($InputString)) {
+                return $true
+            }
+            return $false
+        }
+        catch {
+            return $false
+        }
     }
     [Object]getKeyword([String]$InputString) {
         return ($this.Keywords | ? { $InputString -match $_ })
