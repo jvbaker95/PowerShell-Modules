@@ -18,7 +18,8 @@ Function Create-FilePrompt {
     Param(
         [Parameter(Mandatory=$false)][Object]$InitialDirectory=$env:HOMEDRIVE,
         [Parameter(Mandatory=$false)][Object]$Title="Open",
-        [Parameter(Mandatory=$false)][ValidateSet("Open","Save")][String]$PromptType="Open"
+        [Parameter(Mandatory=$false)][ValidateSet("Open","Save")][String]$PromptType="Open",
+        [Parameter(Mandatory=$false)][Switch]$EnableMultiSelect=$false
     )
     switch ($PromptType) {
         ("Open") {
@@ -29,11 +30,18 @@ Function Create-FilePrompt {
             $FileDialog = New-Object System.Windows.Forms.SaveFileDialog
         }
     }
+    $FileDialog.Multiselect = $EnableMultiSelect
     $FileDialog.InitialDirectory = $InitialDirectory
     $FileDialog.Filter = "All Files (*.*) | *.*"
     $FileDialog.Title = $Title
     $FileDialog.ShowDialog() | Out-Null
-    Return $FileDialog.FileName
+
+    if ($EnableMultiSelect) {
+        return $FileDialog.FileNames
+    }
+    else {
+        return $FileDialog.FileName
+    }
 } 
 
 #This will create form boxes where a target user can enter input in a UI-Box.
