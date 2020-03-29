@@ -35,15 +35,24 @@ Function Create-FilePrompt {
     $FileDialog.InitialDirectory = $InitialDirectory
     $FileDialog.Filter = $FileFilter
     $FileDialog.Title = $Title
-    $FileDialog.ShowDialog() | Out-Null
+    $UserInput = $FileDialog.ShowDialog() 
 
-    if ($EnableMultiSelect) {
-        return $FileDialog.FileNames
+    switch ($UserInput) {
+
+        ("OK") {
+            if ($EnableMultiSelect) {
+                return $FileDialog.FileNames
+            }
+            else {
+                return $FileDialog.FileName
+            }
+        }
+
+        ("Cancel") {
+            return $UserInput
+        }
     }
-    else {
-        return $FileDialog.FileName
-    }
-} 
+}
 
 #This will create form boxes where a target user can enter input in a UI-Box.
 Function Create-FormBox {
@@ -134,12 +143,14 @@ Function Create-SelectionBox {
 
     $form.Topmost = $true
 
-    $result = $form.ShowDialog()
+    $UserInput = $form.ShowDialog()
 
-    if ($result -eq [System.Windows.Forms.DialogResult]::OK) {
-        return $ListBox.SelectedItem
-    }
-    else {
-        return "CANCELED"
+    switch ($UserInput) {
+        ("OK") {
+            return $ListBox.SelectedItem
+        }
+        ("Cancel") {
+            return $UserInput
+        }
     }
 }
