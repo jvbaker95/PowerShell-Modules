@@ -36,7 +36,6 @@ Function Create-FilePrompt {
     $FileDialog.Filter = $FileFilter
     $FileDialog.Title = $Title
     $FileDialog.ShowDialog() | Out-Null
-    $FileDialog.
 
     if ($EnableMultiSelect) {
         return $FileDialog.FileNames
