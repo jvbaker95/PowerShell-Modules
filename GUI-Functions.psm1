@@ -19,7 +19,8 @@ Function Create-FilePrompt {
         [Parameter(Mandatory=$false)][Object]$InitialDirectory=$env:HOMEDRIVE,
         [Parameter(Mandatory=$false)][Object]$Title="Open",
         [Parameter(Mandatory=$false)][ValidateSet("Open","Save")][String]$PromptType="Open",
-        [Parameter(Mandatory=$false)][Switch]$EnableMultiSelect=$false
+        [Parameter(Mandatory=$false)][Switch]$EnableMultiSelect=$false,
+        [Parameter(Mandatory=$false)][Object]$FileFilter="All files (*.*)|*.*"
     )
     switch ($PromptType) {
         ("Open") {
@@ -32,9 +33,10 @@ Function Create-FilePrompt {
     }
     $FileDialog.Multiselect = $EnableMultiSelect
     $FileDialog.InitialDirectory = $InitialDirectory
-    $FileDialog.Filter = "All Files (*.*) | *.*"
+    $FileDialog.Filter = $FileFilter
     $FileDialog.Title = $Title
     $FileDialog.ShowDialog() | Out-Null
+    $FileDialog.
 
     if ($EnableMultiSelect) {
         return $FileDialog.FileNames
